@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-public class LoginRequest {
+public class UserRequest {
 
     private String email;
     private String password;

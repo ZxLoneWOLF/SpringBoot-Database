@@ -5,6 +5,10 @@ import com.example.demo.dto.LoginResponse;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 
+import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.exception.InvalidCredentialsException;
+import com.example.demo.security.JwtUtil;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,17 +23,24 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse login(LoginRequest request) {
 
+        
         if (request.getEmail() == null || request.getPassword() == null) {
             throw new RuntimeException("Email or password missing");
         }
 
+        
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
+    
         if (!request.getPassword().equals(user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new InvalidCredentialsException("Invalid credentials");
         }
 
-        return new LoginResponse("Login successful", user.getEmail());
+    
+        String token = JwtUtil.generateToken(user.getEmail());
+
+        
+        return new LoginResponse("Login successful", user.getEmail(), token);
     }
 }
