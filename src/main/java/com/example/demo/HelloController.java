@@ -87,7 +87,7 @@ public class HelloController {
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
-        // 🔥 roles list already initialized in User.java → no null check needed
+    
         if (!user.getRoles().contains(role)) {
             user.getRoles().add(role);
         }

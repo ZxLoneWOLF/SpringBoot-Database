@@ -8,10 +8,9 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    // 🔑 secret key (auto generate)
+    //  secret key (auto generate)
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    // 🔥 generate token
     public static String generateToken(String email) {
 
         return Jwts.builder()
@@ -22,7 +21,8 @@ public class JwtUtil {
                 .compact();
     }
 
-    // 🔍 extract email from token
+    //  extract email from token
+    
     public static String extractEmail(String token) {
 
         return Jwts.parserBuilder()
