@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles") // ✔ correct
 public class Role {
 
     @Id
@@ -14,7 +14,7 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
-    // ===== getters setters =====
+    public Role() {} //  IMPORTANT (JPA needs this)
 
     public Long getId() {
         return id;
@@ -33,11 +33,11 @@ public class Role {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
         Role role = (Role) o;
-        return Objects.equals(id, role.id);
+        return id != null && id.equals(role.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return 31;
     }
-} 
+}
